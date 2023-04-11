@@ -3,27 +3,29 @@ import ProductsServices from '../services/products.services';
 
 const router = Router();
 
-
-
-
 //Listar todos os produtos
-router.get('/', (req: Request, res: Response) => {
-    const product = ProductsServices.gelAll();
-    res.send(product);
+router.get('/', async (req: Request, res: Response) => {
+    const products = await ProductsServices.gelAll();
+    res.send(products);
 });
 
 
 //Listar um Produto em especifico
-router.get('/:id', (req: Request, res: Response) => {
-    const product = ProductsServices.getById(Number(req.params.id));
-    if(!product) return res.status(400).send({message: "Produto não encontrado!"});
-    res.status(200).send(product);
+router.get('/:id', async  (req: Request, res: Response) => {
+    
+
+    try{
+        const product = await ProductsServices.getById(Number(req.params.id));
+        res.status(200).send(product);
+    }catch(error: any){
+        res.status(400).send({message: error.message});
+     }  
 });
 
 //Criar um Produto
-router.post('/', (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
     try{
-        ProductsServices.create(req.body);
+        await ProductsServices.create(req.body);
         res.status(201).send({message: 'Produto Criado com sucesso!'});
     }catch(error: any){
         res.status(400).send({message: error.message});
@@ -31,10 +33,9 @@ router.post('/', (req: Request, res: Response) => {
 });
 
 //Atualizar um Produto
-//Atualizar Estudante
-router.put('/:id', (req: Request, res: Response) => {
+router.put('/:id', async (req: Request, res: Response) => {
     try{
-        ProductsServices.update(Number(req.params.id), req.body);
+        await  ProductsServices.update(Number(req.params.id), req.body);
         res.status(200).send({ message: 'Produto atualizado com sucesso!'});
     }catch(error: any){
         res.status(400).send({message: error.message});
@@ -42,10 +43,10 @@ router.put('/:id', (req: Request, res: Response) => {
 });
 
 
-// Deletar um Estudante
-router.delete('/remove/:id', (req: Request, res: Response) => {
+// Deletar 
+router.delete('/remove/:id', async (req: Request, res: Response) => {
     try{
-        ProductsServices.remove(Number(req.params.id));
+        await ProductsServices.remove(Number(req.params.id));
         res.status(200).send({ message: 'Produto removido com sucesso!'});
     }catch(error: any){
         res.status(400).send({message: error.message});
