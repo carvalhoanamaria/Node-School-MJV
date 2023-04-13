@@ -1,4 +1,5 @@
-import { Student } from "../models/student.models";
+import { IStudent, Student } from "../models/student.models";
+
 
  class StudentRepository{
     getAll(){ //Busca todos
@@ -9,11 +10,11 @@ import { Student } from "../models/student.models";
        return Student.findOne({ document: document});
     }
 
-    create(student: typeof Student){
+    create(student: IStudent){
         return Student.create(student);
     }
 
-    update(document : string, student: Partial<typeof Student>){//identificador do estudande, o que voce quer atualizar
+    update(document : string, student: Partial<IStudent>){//identificador do estudande, o que voce quer atualizar
         return Student.updateOne({ document: document }, { $set: student });
     }
 

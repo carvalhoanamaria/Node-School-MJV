@@ -2,6 +2,18 @@
 
 import { Schema } from 'mongoose';//schema representa o modelo para o banco de dados
 import mongoose  from 'mongoose';
+
+
+export interface IStudent {
+   name : string;
+   email : string;
+   document : string;
+   password : string;
+   age : number;
+   phone? : string;
+   createAt: string | Date;
+}
+
 /* export interface Student {
    name : string;//Tipo primitivo
    email : string;
@@ -11,7 +23,7 @@ import mongoose  from 'mongoose';
    phone? : string;// phone nao obrigatorio
 } */
 
-export const studentSchema = new Schema({
+export const studentSchema = new Schema <IStudent>({
    name: {
       type: String
    },//Tipo Construtor
@@ -37,4 +49,4 @@ export const studentSchema = new Schema({
    });
 
 
-export const Student = mongoose.model('Student',studentSchema);// model nesse cenario serve para ter acesso obj estudent do mongo
+export const Student = mongoose.model<IStudent>('Student',studentSchema);// model nesse cenario serve para ter acesso obj estudent do mongo
